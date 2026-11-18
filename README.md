@@ -14,6 +14,7 @@ ai-in-c/
   tasks.txt              training examples for the task sorter (you edit this)
   Makefile               shortcuts (needs "make"; Windows users can skip it)
   download_mnist.ps1     downloads the MNIST digit images (Windows)
+  start.bat              double-click to compile, train (first time) and chat (Windows)
   data/                  MNIST files go here (created by the download script)
   src/
     matrix.h, matrix.c   the matrix library everything else uses
@@ -239,22 +240,45 @@ Type a task and press Enter:
 
 - If the top guess is below 50%, it says **Not sure** and shows its best guesses.
 - If none of your words are known, it says **I don't know any of those words yet**.
-- Type `/quit` to leave.
+- Type `/help` to see the commands and `/quit` to leave.
+
+Commands inside chat:
+
+| Command | What it does |
+|---|---|
+| `/teach category\|text` | Adds a correct example to `tasks.txt` |
+| `/retrain` | Retrains on `tasks.txt` right now and reloads the model, without leaving chat |
+| `/help` | Lists the commands |
+| `/quit` | Leaves chat |
 
 ### Step 6: teach it its mistakes (the improvement loop)
 
-1. In chat, when it gets something wrong, add the correct answer:
+Everything happens inside one chat session, with no retyping of terminal commands:
+
+1. Type a task. If the answer is wrong, add the correct one:
 
    ```
    /teach study|revise for my chemistry test
    ```
 
-   This appends the line to `tasks.txt`. You can also edit `tasks.txt` yourself in VS Code.
-2. Leave chat (`/quit`).
-3. Train again: `.\taskai.exe train`
-4. Test the same tasks again in `chat`.
+   You can `/teach` several examples in a row. You can also edit `tasks.txt` in VS Code instead.
+2. Type `/retrain`. After a few seconds it prints something like:
 
-Repeat this loop. Every round of 10 to 20 new examples from your real life makes it better. **Retraining replaces the old `model.tai`.** Nothing is lost, because the knowledge is in `tasks.txt`.
+   ```
+   Retrained on 283 examples (7 categories). Test accuracy: 66.1%
+   ```
+
+3. Type the same task again and see if it improved.
+
+Repeat. Every round of 10 to 20 new examples from your real life makes it better. **Retraining replaces the old `model.tai`.** Nothing is lost, because the knowledge is in `tasks.txt`.
+
+Note: the test accuracy shown after `/retrain` can move up or down by a few points, even when the AI is improving. The test set is small (about 20% of your examples), and each retrain picks a slightly different test set as your data grows. Judge progress mostly by whether your own real tasks come out right.
+
+### Step 6b: skip the typing (shortcuts)
+
+- **Windows launcher:** double-click `start.bat` in the `ai-in-c` folder. It compiles, trains if there is no model yet, and opens chat. Use it every day.
+- **Terminal history:** in the VS Code terminal, press the **Up arrow** to bring back the previous command. No need to retype the long `gcc` line.
+- You only need to compile again when you change `taskai.c`. Changing `tasks.txt` never needs compiling.
 
 ### Step 7: make a different AI with the same program
 
@@ -304,9 +328,10 @@ I tested several of these on 8 different train/test splits and the accuracy stay
 | `.\xxx.exe is not recognized` | Compiling failed, so the `.exe` was never made. Fix the compiler error first. |
 | `Cannot open data/train-images-idx3-ubyte` | MNIST files are missing or still end in `.gz`. Run the download script again. |
 | `is not a valid MNIST image file` | A file is corrupted or half unzipped. Download it again. |
+| `start.bat` closes instantly or shows an error | Run it from inside VS Code's terminal (`.\start.bat`) to read the message. Usually `gcc` is not installed or a file is unsaved. |
 | `No usable model.tai found. Run: taskai train` | Run `.\taskai.exe train` first, in the same folder you run `chat` from. |
 | `Need at least 20 examples and 2 categories.` | Add more lines to `tasks.txt`. |
-| `Skipping line without '|'` | That line in `tasks.txt` has no `|` between category and text. |
+| `Skipping line without '\|'` | That line in `tasks.txt` has no `\|` between category and text. |
 | Category shows up twice, like `work` and `Work` | Category names are case-sensitive. Make them identical. |
 | `Cannot open tasks.txt` | Run the program from the `ai-in-c` folder, or pass the file path. |
 | Output `nan` or loss jumps up | Learning rate too high. Lower `LEARN_RATE` and recompile. |
