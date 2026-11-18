@@ -74,7 +74,11 @@ Matrix *matrix_mul(const Matrix *a, const Matrix *b) {
     Matrix *r = matrix_create(a->rows, b->cols);
     if (!r) return NULL;
 
-    /* i-k-j loop order walks memory sequentially, which is faster than i-j-k. */
+    /* i-k-j loop order walks memory sequentially, which is faster than i-j-k.
+       With -fopenmp, rows are split across CPU cores (each row is independent). */
+#ifdef _OPENMP
+    #pragma omp parallel for
+#endif
     for (int i = 0; i < a->rows; i++) {
         for (int k = 0; k < a->cols; k++) {
             float aik = MAT_AT(a, i, k);

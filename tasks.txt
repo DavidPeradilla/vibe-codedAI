@@ -1,0 +1,285 @@
+# Training data for the task sorter. One example per line:  category|task text
+# Lines starting with # are ignored. Add your own lines, then run "taskai train" again.
+work|finish the quarterly report for my manager
+work|reply to client emails before noon
+work|prepare slides for the Monday team meeting
+work|schedule a meeting with the design team
+work|update the project timeline in the tracker
+work|send the invoice draft to the client
+work|review the pull request from Anna
+work|fix the login bug in the app
+work|write the weekly status update
+work|call the supplier about the delayed order
+work|prepare the presentation for the board
+work|submit the expense report by Friday
+work|interview the candidate for the developer position
+work|back up the project files to the server
+work|draft the proposal for the new customer
+work|organize the sprint planning session
+work|deploy the website update tonight
+work|follow up with the vendor about the contract
+work|clean up the database and remove duplicates
+work|book a conference room for the workshop
+study|read chapter five of the biology textbook
+study|finish the math homework for tomorrow
+study|study for the history exam on Thursday
+study|write the essay about climate change
+study|practice English vocabulary for twenty minutes
+study|watch the online lecture on statistics
+study|review my notes from physics class
+study|prepare the thesis outline for my professor
+study|memorize the Spanish verbs list
+study|submit the chemistry lab report
+study|solve ten practice problems in algebra
+study|make flashcards for the anatomy quiz
+study|complete the online programming course module
+study|research sources for the literature review
+study|revise for the final exam next week
+study|attend the study group at the library
+study|learn the new C programming concepts
+study|write a summary of the economics article
+study|prepare questions for the tutoring session
+study|finish reading the assigned novel
+home|clean the kitchen and wash the dishes
+home|do the laundry and fold the clothes
+home|take out the trash tonight
+home|fix the leaking faucet in the bathroom
+home|vacuum the living room floor
+home|water the plants on the balcony
+home|cook dinner for the family
+home|organize the closet and donate old clothes
+home|change the light bulb in the hallway
+home|mow the lawn this weekend
+home|mop the floors and dust the shelves
+home|repair the broken chair
+home|feed the cat and clean the litter box
+home|iron the shirts for next week
+home|wash the car on Saturday
+home|rearrange the furniture in the bedroom
+home|paint the fence in the garden
+home|clean the windows
+home|set up the new shelf in the garage
+home|prepare the guest room for visitors
+shopping|buy milk eggs and bread from the grocery store
+shopping|order a new phone case online
+shopping|pick up the package from the post office
+shopping|get a birthday gift for mom
+shopping|buy vegetables and fruit at the market
+shopping|purchase a new pair of running shoes
+shopping|order printer ink cartridges
+shopping|buy batteries and light bulbs
+shopping|compare prices for a new laptop
+shopping|get rice and cooking oil
+shopping|buy a new backpack for school
+shopping|pick up the dry cleaning
+shopping|buy cleaning supplies and detergent
+shopping|get a gift card for my friend
+shopping|buy paint for the fence
+shopping|shop for a winter jacket on sale
+shopping|return the damaged item to the store
+shopping|buy dog food and treats
+shopping|order new headphones online
+shopping|get snacks and drinks for the party
+health|book a dentist appointment
+health|go for a thirty minute run
+health|take vitamins every morning
+health|schedule a yearly checkup with the doctor
+health|do yoga stretches before bed
+health|drink two liters of water today
+health|refill my prescription at the pharmacy
+health|go to the gym for leg day
+health|sleep eight hours tonight
+health|meditate for ten minutes
+health|get a flu shot this week
+health|eat a healthy breakfast with oatmeal
+health|call the clinic about test results
+health|walk ten thousand steps
+health|make an eye exam appointment
+health|stretch my back after sitting
+health|track my calories and weight
+health|take medicine after lunch
+health|visit the physiotherapist for my knee
+health|go swimming at the pool
+finance|pay the electricity bill before the deadline
+finance|transfer money to the savings account
+finance|review my monthly budget
+finance|file the tax return
+finance|pay the credit card balance
+finance|check my bank statement for errors
+finance|renew the car insurance
+finance|set up automatic rent payment
+finance|track my spending this month
+finance|pay the internet and phone bill
+finance|compare loan interest rates
+finance|send money to my brother
+finance|cancel unused subscriptions
+finance|invest in the index fund
+finance|save receipts for tax deductions
+finance|pay the school tuition fee
+finance|check my investment portfolio
+finance|update the expense spreadsheet
+finance|withdraw cash from the ATM
+finance|apply for the bank loan
+social|call grandma this weekend
+social|plan a birthday party for my friend
+social|meet friends for coffee on Saturday
+social|reply to messages from my cousin
+social|go to the wedding on Sunday
+social|invite the neighbors for dinner
+social|send a thank you card to my aunt
+social|organize a movie night with friends
+social|text my best friend happy birthday
+social|attend the family reunion
+social|catch up with an old classmate
+social|join the game night at Mike's place
+social|video call my parents tonight
+social|plan a picnic at the park
+social|congratulate my colleague on her baby
+social|go to the concert with friends
+social|visit my sister this weekend
+social|host a barbecue for the family
+social|reconnect with a friend I haven't seen
+social|write a message to wish my uncle well
+work|send the meeting notes to the team
+work|update the client on the project status
+work|finalize the budget for next quarter
+work|test the new feature before release
+work|onboard the new employee on Monday
+work|write documentation for the API
+work|negotiate the contract terms with the partner
+work|review the sales numbers with my boss
+work|create the marketing plan for the launch
+work|answer the support tickets in the queue
+work|set up a call with the investors
+work|fix the bugs reported by the testers
+work|prepare the agenda for the staff meeting
+work|approve the leave requests from my team
+work|upload the final design files to the shared drive
+work|check the server logs for errors
+work|present the results to the stakeholders
+work|hire a freelancer for the website
+work|print the contracts for signing
+work|update my resume and portfolio for the promotion
+study|finish the reading assignment for literature class
+study|revise the calculus formulas before the quiz
+study|write the introduction of my research paper
+study|attend the online webinar about data science
+study|complete the grammar exercises in the workbook
+study|review the lecture slides on networks
+study|prepare for the oral presentation in class
+study|learn ten new Japanese words
+study|take the practice test for the entrance exam
+study|organize my study schedule for finals week
+study|read the journal article for the seminar
+study|finish the group project report for the course
+study|watch the tutorial on machine learning
+study|do the geography assignment on rivers
+study|check the answers of the physics worksheet
+study|write the book review for English class
+study|study the periodic table for the test
+study|practice speaking French with a partner
+study|finish the coding exercises for the class
+study|meet the professor during office hours
+home|sweep the porch and the driveway
+home|replace the batteries in the smoke detector
+home|wash the bed sheets and pillow covers
+home|clean the bathroom and scrub the tiles
+home|defrost the freezer and clean the fridge
+home|fix the squeaky door hinge
+home|throw away the expired food in the pantry
+home|trim the hedges in the yard
+home|unclog the kitchen sink
+home|sort the recycling and take it outside
+home|tidy up the kids toys in the playroom
+home|hang the new curtains in the living room
+home|clean the air conditioner filter
+home|bleach the grout and wipe the counters
+home|plant flowers in the garden
+home|assemble the new desk for the study room
+home|dust the ceiling fan
+home|reorganize the kitchen cabinets
+home|fix the broken window latch
+home|scrub the oven and the stove
+shopping|buy a birthday cake and candles
+shopping|buy toothpaste and soap at the drugstore
+shopping|order a replacement charger for my laptop
+shopping|get fresh fish and chicken from the market
+shopping|buy a new mattress during the sale
+shopping|look for a gift for my dad
+shopping|buy school supplies and notebooks
+shopping|shop for a dress for the party
+shopping|order groceries for delivery tomorrow
+shopping|buy a new vacuum cleaner
+shopping|pick up flowers for the table
+shopping|buy a new set of kitchen knives
+shopping|order a book from the online store
+shopping|get a new phone charger and cable
+shopping|buy sugar coffee and tea
+shopping|shop for new curtains and cushions
+shopping|find a good deal on a tablet
+shopping|buy a present for the baby shower
+shopping|exchange the shirt that does not fit
+shopping|get fresh bread from the bakery
+health|do thirty minutes of cardio at the gym
+health|book an appointment with the eye doctor
+health|take my blood pressure medicine
+health|go to bed early to rest
+health|eat more vegetables and less sugar
+health|get a blood test at the laboratory
+health|do ten minutes of stretching after waking up
+health|see the dermatologist about my skin
+health|practice breathing exercises to reduce stress
+health|weigh myself and record it
+health|cycle for an hour in the morning
+health|pick up my antibiotics from the pharmacy
+health|go for a long walk in the evening
+health|get my vaccine booster
+health|brush and floss my teeth before bed
+health|visit the doctor for my cough
+health|drink green tea instead of soda
+health|attend my pilates class
+health|check my heart rate after exercise
+health|schedule physical therapy sessions
+finance|pay the monthly rent to the landlord
+finance|check the interest on my savings
+finance|set a budget for groceries this month
+finance|pay the water bill online
+finance|file my insurance claim
+finance|review the balance of my checking account
+finance|transfer funds to pay my loan installment
+finance|calculate how much I owe in taxes
+finance|open a new savings account
+finance|pay back the money I borrowed
+finance|check the stock prices and my shares
+finance|renew the health insurance policy
+finance|pay for the electricity and gas
+finance|update my budget spreadsheet with new expenses
+finance|request a refund from the bank
+finance|put aside money for the emergency fund
+finance|review my credit card statement
+finance|pay the parking fine
+finance|compare insurance prices for the next year
+finance|deposit my paycheck at the bank
+social|call my brother to check how he is
+social|plan a surprise party for my sister
+social|go out for dinner with my friends
+social|send flowers to my mother for her birthday
+social|reply to the wedding invitation
+social|chat with my college friends online
+social|meet my cousin for lunch
+social|attend the baby shower on Saturday
+social|invite everyone to the housewarming party
+social|greet my neighbor on his birthday
+social|go to the reunion with my old classmates
+social|text my friend to ask how her trip went
+social|plan a game night with the family
+social|bring a gift to the christening
+social|have coffee with my old coworker
+social|call my uncle to say thank you
+social|throw a party for my parents anniversary
+social|hang out with friends at the mall
+social|send a message to congratulate my friend on graduating
+social|join the group chat for the trip planning
+ study|finish the c project
+study|help me to study basic calculus
+study|help me with my assignment
