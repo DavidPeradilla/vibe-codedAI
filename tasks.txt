@@ -283,3 +283,13 @@ social|join the group chat for the trip planning
  study|finish the c project
 study|help me to study basic calculus
 study|help me with my assignment
+study|do my basic calculus
+technology|AI
+technology|Software
+technology|Hardware and AI
+technology|Computers
+technology|Hardware can run AI and computer
+finance|taxes
+finance|money
+social| friends
+study| learn chemistry

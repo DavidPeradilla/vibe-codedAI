@@ -320,13 +320,15 @@ static void shuffle(int *a, int n) {
     for (int i = n - 1; i > 0; i--) { int j = rand() % (i + 1); int t = a[i]; a[i] = a[j]; a[j] = t; }
 }
 
-static int cmd_train(const char *data_path) {
+static int cmd_train(const char *data_path, int quiet) {
     static Dataset d;
     static Vocab vocab;
     if (!load_data(data_path, &d)) return 1;
-    printf("Loaded %d examples in %d categories:", d.n, d.n_labels);
-    for (int i = 0; i < d.n_labels; i++) printf(" %s", d.labels[i]);
-    printf("\n");
+    if (!quiet) {
+        printf("Loaded %d examples in %d categories:", d.n, d.n_labels);
+        for (int i = 0; i < d.n_labels; i++) printf(" %s", d.labels[i]);
+        printf("\n");
+    }
     if (d.n < 20 || d.n_labels < 2) { fprintf(stderr, "Need at least 20 examples and 2 categories.\n"); return 1; }
 
     /* Hold out 20% of the examples to test on. The AI never trains on these. */
@@ -339,7 +341,7 @@ static int cmd_train(const char *data_path) {
 
     vocab_build(&vocab, d.samples, tr, n_train);   /* vocabulary from training texts only */
     int V = vocab.n, C = d.n_labels;
-    printf("Vocabulary: %d words. Training on %d, testing on %d.\n\n", V, n_train, n_val);
+    if (!quiet) printf("Vocabulary: %d words. Training on %d, testing on %d.\n\n", V, n_train, n_val);
 
     Matrix *Xt = matrix_create(n_train, V), *Yt = matrix_create(n_train, C);
     Matrix *Xv = matrix_create(n_val, V);
@@ -357,28 +359,33 @@ static int cmd_train(const char *data_path) {
     Net net = net_create(V, C);
     for (int e = 1; e <= EPOCHS; e++) {
         float loss = train_step(&net, Xt, Yt);
-        if (e % 100 == 0 || e == 1)
+        if (!quiet && (e % 100 == 0 || e == 1))
             printf("epoch %3d   loss = %.4f   train accuracy = %5.1f%%   test accuracy = %5.1f%%\n",
                    e, loss, accuracy(&net, Xt, lt) * 100.0f, accuracy(&net, Xv, lv) * 100.0f);
     }
 
-    /* Show what it got wrong on the held-out examples. */
-    Matrix *A1, *P;
-    forward(&net, Xv, &A1, &P);
-    printf("\nMistakes on the test examples:\n");
-    int wrong = 0;
-    for (int i = 0; i < n_val; i++) {
-        int g = argmax_row(P, i);
-        if (g != lv[i]) {
-            printf("  \"%s\"\n      real: %s   guessed: %s\n", d.samples[va[i]].text, d.labels[lv[i]], d.labels[g]);
-            wrong++;
-        }
-    }
-    if (!wrong) printf("  none\n");
-    matrix_free(A1); matrix_free(P);
+    float final_val = accuracy(&net, Xv, lv);
 
-    if (save_model(&net, &vocab, &d, MODEL_FILE)) printf("\nSaved %s. Now run:  taskai chat\n", MODEL_FILE);
-    else fprintf(stderr, "Could not write %s\n", MODEL_FILE);
+    if (!quiet) {
+        /* Show what it got wrong on the held-out examples. */
+        Matrix *A1, *P;
+        forward(&net, Xv, &A1, &P);
+        printf("\nMistakes on the test examples:\n");
+        int wrong = 0;
+        for (int i = 0; i < n_val; i++) {
+            int g = argmax_row(P, i);
+            if (g != lv[i]) {
+                printf("  \"%s\"\n      real: %s   guessed: %s\n", d.samples[va[i]].text, d.labels[lv[i]], d.labels[g]);
+                wrong++;
+            }
+        }
+        if (!wrong) printf("  none\n");
+        matrix_free(A1); matrix_free(P);
+    }
+
+    if (!save_model(&net, &vocab, &d, MODEL_FILE)) fprintf(stderr, "Could not write %s\n", MODEL_FILE);
+    else if (quiet) printf("Retrained on %d examples (%d categories). Test accuracy: %.1f%%\n", d.n, C, final_val * 100.0f);
+    else printf("\nSaved %s. Now run:  taskai chat\n", MODEL_FILE);
 
     matrix_free(Xt); matrix_free(Yt); matrix_free(Xv);
     free(lt); free(lv); free(order);
@@ -396,7 +403,7 @@ static int cmd_chat(const char *data_path) {
     }
     printf("Task sorter ready (%d categories:", d.n_labels);
     for (int i = 0; i < d.n_labels; i++) printf(" %s", d.labels[i]);
-    printf(").\nType a task. Commands: /teach category|text   /quit\n\n");
+    printf(").\nType a task. Commands: /teach category|text   /retrain   /help   /quit\n\n");
 
     char line[MAX_LINE];
     for (;;) {
@@ -407,13 +414,34 @@ static int cmd_chat(const char *data_path) {
         if (!line[0]) continue;
         if (strcmp(line, "/quit") == 0) break;
 
+        if (strcmp(line, "/help") == 0) {
+            printf("  Type any task to sort it.\n"
+                   "  /teach category|text   add a correct example to %s\n"
+                   "  /retrain               learn from %s now (takes a few seconds)\n"
+                   "  /quit                  leave\n", data_path, data_path);
+            continue;
+        }
+
+        if (strcmp(line, "/retrain") == 0) {
+            printf("Retraining...\n");
+            if (cmd_train(data_path, 1) == 0) {
+                net_free(&net);
+                if (!load_model(MODEL_FILE, &net, &vocab, &d)) {
+                    fprintf(stderr, "Could not reload %s\n", MODEL_FILE);
+                    return 1;
+                }
+                printf("Ready. Try your tasks again.\n");
+            }
+            continue;
+        }
+
         if (strncmp(line, "/teach ", 7) == 0) {
             if (!strchr(line + 7, '|')) { printf("Use:  /teach category|task text\n"); continue; }
             FILE *f = fopen(data_path, "a");
             if (!f) { printf("Cannot open %s\n", data_path); continue; }
             fprintf(f, "%s\n", line + 7);
             fclose(f);
-            printf("Added to %s. Run  taskai train  again to learn it.\n", data_path);
+            printf("Added to %s. Type /retrain to learn it.\n", data_path);
             continue;
         }
 
@@ -449,7 +477,7 @@ static int cmd_chat(const char *data_path) {
 
 int main(int argc, char **argv) {
     const char *data_path = (argc > 2) ? argv[2] : "tasks.txt";
-    if (argc > 1 && strcmp(argv[1], "train") == 0) return cmd_train(data_path);
+    if (argc > 1 && strcmp(argv[1], "train") == 0) return cmd_train(data_path, 0);
     if (argc > 1 && strcmp(argv[1], "chat") == 0)  return cmd_chat(data_path);
     printf("Usage:\n  taskai train [tasks.txt]\n  taskai chat  [tasks.txt]\n");
     return 1;
